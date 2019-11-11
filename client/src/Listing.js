@@ -19,6 +19,7 @@ class Listing extends Component {
 
     render() {
         return <div className="jumbotron text-center">
+            <img className="App-logo" alt="logo" src="https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png" />
             <p>Search Tweets</p>
             <p>Using Twitter Streaming API</p>
             <div className="jumbotron display-content-center pd0">

@@ -19,21 +19,28 @@ class App extends Component {
     this.callApi();
   }
 
-  callApi = (searchParam) => {
+  callApi = searchParam => {
+    // this.setState({ isLoaded: false });
+    let oldTweets = Object.assign([], this.state.tweets);
     fetch(`/tweets?searchTerm=${searchParam ? searchParam : this.state.childData}`)
       .then(res => res.json())
       .then(data => {
+        oldTweets = oldTweets.length > 0 ? [...oldTweets, ...data] : data || [];
         this.setState({
-          tweets: data || [],
+          tweets: oldTweets,
           isLoaded: true
         });
-        console.log("Dataa", data);
+        // console.log("Dataa", data);
       }).catch(e => console.log("Error while retrieving tweets! ", e));
   }
 
   receiveChildData = input => {
     this.callApi(input);
     console.log("Child Searched for..", input);
+  }
+
+  loadMoreTweets = () => {
+    this.callApi();
   }
 
   // Conditionally rendering components based on the isLoaded flag in order to show loader
@@ -46,20 +53,24 @@ class App extends Component {
       </div>
     } else {
       return (
-        <div>
+        <div className="panel">
           <Listing parentCallback={this.receiveChildData} />
-          <p className="text-success text-center">Tweets Matched</p>
+          <div className="display-content-center">
+            <span className="text-info text-center">Tweets Matched</span>
+            &nbsp;&nbsp;
+            <button type="button" onClick={this.loadMoreTweets} className="btn btn-primary more-tweets">Load More Tweets</button>
+          </div>
           {tweets.map((tweet, i) =>
-            <div>
-              <ul key={i} className="list-group">
-                <li className="list-group-item display-flex" style={{background:"#F5F8FA"}}>
+            <div key={i}>
+              <ul className="list-group">
+                <li className="list-group-item display-flex" style={{ background: "#F5F8FA" }}>
                   <img alt="User Profile Pic" src={tweet.profilePic} />
                   <div className="tweets-list-group">
                     <div className="display-flex">
                       <a href={tweet.url} className="font-weight-bold">{tweet.username}</a>&nbsp;
-                      {tweet.verified && <img height="25" src={badge} alt="Verified Twitter User badge" />}                      
+                      {tweet.verified && <img height="25" src={badge} alt="Verified Twitter User badge" />}
                       <a href={tweet.url}>@{tweet.name}</a>
-                      <a href="#"  data-toggle="popover" title="Crated On" data-content="Hello"> . {tweet.created}</a>
+                      <a href="#" rel="no-follow" data-toggle="popover" title="Crated On" data-content="Hello"> . {tweet.created}</a>
                     </div>
                     <span>{tweet.text}</span>
                   </div>
