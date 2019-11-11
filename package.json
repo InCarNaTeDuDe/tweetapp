@@ -1,0 +1,28 @@
+{
+  "name": "twitterapp",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "cd client && npm run start",
+    "dev": "concurrently --kill-others-on-fail \"npm start\" \"npm run client\"",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "engines": {
+    "node": "9.5.0",
+    "npm": "5.6.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jquery": "^3.4.1",
+    "twit": "^2.2.11"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
