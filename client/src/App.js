@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
+// import $ from 'jquery';
+// import 'bootstrap/dist/js/bootstrap.js';
 import './App.css';
 import Listing from './Listing';
 import badge from './badge.png';
@@ -61,16 +62,16 @@ class App extends Component {
             <button type="button" onClick={this.loadMoreTweets} className="btn btn-primary more-tweets">Load More Tweets</button>
           </div>
           {tweets.map((tweet, i) =>
-            <div key={i}>
+            <div key={i} className="col-md-6">
               <ul className="list-group">
-                <li className="list-group-item display-flex" style={{ background: "#F5F8FA" }}>
-                  <img alt="User Profile Pic" src={tweet.profilePic} />
+                <li className="list-group-item display-flex">
+                  <img alt="User Profile Pic" height="48" src={tweet.profilePic} />
                   <div className="tweets-list-group">
                     <div className="display-flex">
-                      <a href={tweet.url} className="font-weight-bold">{tweet.username}</a>&nbsp;
+                      <a target="_blank" href={tweet.url} className="font-weight-bold">{tweet.username}</a>&nbsp;
                       {tweet.verified && <img height="25" src={badge} alt="Verified Twitter User badge" />}
-                      <a href={tweet.url}>@{tweet.name}</a>
-                      <a href="#" rel="no-follow" data-toggle="popover" title="Crated On" data-content="Hello"> . {tweet.created}</a>
+                      <a target="_blank" href={tweet.url} rel="no-follow">@{tweet.name}</a>
+                      <a href="#" rel="no-follow"> . {tweet.created}</a>
                     </div>
                     <span>{tweet.text}</span>
                   </div>

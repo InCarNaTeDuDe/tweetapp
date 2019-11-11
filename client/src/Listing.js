@@ -37,6 +37,9 @@ class Listing extends Component {
                         <button type="submit" className="btn btn-link">
                             <span className="glyphicon glyphicon-search"></span>
                         </button>
+                        <button type="button" className="btn btn-primary">New Tweets
+                         <span className="badge">7</span>
+                        </button>
                     </div>
                 </form>
             </div>
