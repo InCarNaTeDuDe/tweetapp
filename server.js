@@ -10,6 +10,10 @@ T = new Twit({
     strictSSL: true, // optional - requires SSL certificates to be valid.
 })
 
+app.get('/',(req,res)=>{
+    res.send("hello world!");
+});
+
 app.get('/tweets', (req, res) => {
     T.get('search/tweets', { q: req.query.searchTerm, count: 25 }, (err, data, response) => {
         var tweets = data.statuses;
