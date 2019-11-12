@@ -30,14 +30,7 @@ app.get('/tweets', (req, res) => {
                 }
             );
         }
-        // console.log(JSON.stringify(resultSet,null,2));
         res.send(resultSet);
     });
 });
-if (process.env.NODE_ENV === 'production') {
-    app.get("*", (req, res) => {
-        //Static file declaration
-        app.use(express.static(path.join(__dirname, 'client/build')));
-    });
-}
 app.listen(process.env.PORT || 5555, () => console.log(`Server is listening on port 5555`));
