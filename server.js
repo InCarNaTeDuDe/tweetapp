@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('/tweets', (req, res) => {
-    T.get('search/tweets', { q: req.query.searchTerm, count: 10, language: 'en' }, (err, data, response) => {
+    T.get('search/tweets', { q: req.query.searchTerm, count: 10, lang: 'en' }, (err, data, response) => {
         var tweets = data.statuses;
         var resultSet = [];
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
