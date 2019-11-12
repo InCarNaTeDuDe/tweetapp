@@ -22,14 +22,16 @@ class App extends Component {
 
   callApi = searchParam => {
     // this.setState({ isLoaded: false });
-    let oldTweets = Object.assign([], this.state.tweets);
+    let oldState = Object.assign([], this.state),
+      oldTweets;
     fetch(`/tweets?searchTerm=${searchParam ? searchParam : this.state.childData}`)
       .then(res => res.json())
       .then(data => {
-        oldTweets = oldTweets.length > 0 ? [...oldTweets, ...data] : data || [];
+        oldTweets = (oldState.tweets.length > 0 && oldState.childData === searchParam) ? [...oldState.tweets, ...data] : data || [];
         this.setState({
           tweets: oldTweets,
-          isLoaded: true
+          isLoaded: true,
+          childData: searchParam
         });
         // console.log("Dataa", data);
       }).catch(e => console.log("Error while retrieving tweets! ", e));
@@ -68,9 +70,9 @@ class App extends Component {
                   <img alt="User Profile Pic" height="48" src={tweet.profilePic} />
                   <div className="tweets-list-group">
                     <div className="display-flex">
-                      <a target="_blank" href={tweet.url} className="font-weight-bold">{tweet.username}</a>&nbsp;
+                      <a target="_blank" rel="noopener noreferrer" href={tweet.url} className="font-weight-bold">{tweet.username}</a>&nbsp;
                       {tweet.verified && <img height="25" src={badge} alt="Verified Twitter User badge" />}
-                      <a target="_blank" href={tweet.url} rel="no-follow">@{tweet.name}</a>
+                      <a target="_blank" rel="noopener noreferrer" href={tweet.url}>@{tweet.name}</a>
                       <a href="#" rel="no-follow"> . {tweet.created}</a>
                     </div>
                     <span>{tweet.text}</span>

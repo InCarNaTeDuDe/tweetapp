@@ -10,12 +10,12 @@ T = new Twit({
     strictSSL: true, // optional - requires SSL certificates to be valid.
 })
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send("hello world!");
 });
 
 app.get('/tweets', (req, res) => {
-    T.get('search/tweets', { q: req.query.searchTerm||'cherry', count: 25 }, (err, data, response) => {
+    T.get('search/tweets', { q: req.query.searchTerm, count: 25, lang: 'en' }, (err, data, response) => {
         var tweets = data.statuses;
         var resultSet = [];
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -37,4 +37,5 @@ app.get('/tweets', (req, res) => {
         res.send(resultSet);
     });
 });
-app.listen(process.env.PORT || 5555, () => console.log(`Server is listening on port 5555`));
+
+app.listen(process.env.PORT || 5555, () => console.log(`Server is listening on port ${process.env.PORT}`));
