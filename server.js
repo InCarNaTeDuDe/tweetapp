@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'production') {
     app.get('/', (req, res) => {
         //express middleware to serve the static files ,so that the client can download it form the server
         // res.send("hello world!");
-        app.use(express.static(path.join(__dirname+'/client/build/index.html')));
+        app.use(express.static(path.join(__dirname, 'client/build')));
     });
 }
 
