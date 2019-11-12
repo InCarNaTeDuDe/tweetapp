@@ -133,4 +133,22 @@ li.list-group.item >img{
 .btn{
   font-size: 16px;
 }
+@media only screen and (max-width:600px){
+  .App-logo{
+    height: 60px;
+    width: 60px;
+  }
+  .search-box{
+    display:flex;
+  }
+}
+@media only screen and (min-width:600px){
+  .form-inline{
+    display: block;
+  }
+}
+
+.loader.few{
+  background: #FFF;
+}
 /*** End ***/

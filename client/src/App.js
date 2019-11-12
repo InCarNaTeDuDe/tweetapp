@@ -20,7 +20,8 @@ class App extends Component {
       tweets: [],
       isLoaded: false,
       childData: '',
-      newTweetsCameUp: 0
+      newTweetsCameUp: 0,
+      hasOldData: false
     };
     // this.inputStream = new BehaviorSubject();
     this.debounce = this.debounceCall();
@@ -40,7 +41,6 @@ class App extends Component {
   }
 
   callApi = searchParam => {
-    // this.setState({ isLoaded: false });
     let oldState = Object.assign([], this.state),
       oldTweets;
     fetch(`/tweets?searchTerm=${searchParam ? searchParam : this.state.childData}`)
@@ -49,8 +49,9 @@ class App extends Component {
         oldTweets = (oldState.tweets.length > 0 && oldState.childData === searchParam) ? [...oldState.tweets, ...data] : data || [];
         this.setState({
           tweets: oldTweets,
-          isLoaded: true,
-          childData: searchParam
+          isLoaded: false,
+          childData: searchParam,
+          hasOldData: false
         });
         // console.log("Dataa", data);
       }).catch(e => console.log("Error while retrieving tweets! ", e));
@@ -58,12 +59,12 @@ class App extends Component {
 
   streamNewTweets = () => {
     if (this.state.childData.length > 0) {
-      let prevState = Object.assign({},this.state);
+      let prevState = Object.assign({}, this.state);
       fetch(`/newtweets?name=${this.state.childData}`)
         .then(res => res.json())
         .then(data => {
           this.setState({
-            newTweetsCameUp: prevState.newTweetsCameUp+data.length
+            newTweetsCameUp: prevState.newTweetsCameUp + data.length
           });
           if (data && data.length) console.log("New Tweets " + data.length);
         });
@@ -72,11 +73,18 @@ class App extends Component {
 
   receiveChildData = input => {
     this.callApi(input);
+    this.setState({
+      isLoaded: true
+    })
     console.log("Child Searched for..", input);
   }
 
   loadMoreTweets = () => {
-    this.callApi();
+    let dummyState = Object.assign(this.state);
+    this.setState({
+      hasOldData: true
+    })
+    this.callApi(dummyState.childData);
   }
 
   debounceCall = () => {
@@ -90,19 +98,6 @@ class App extends Component {
     }
   }
 
-  // handleOnScroll() {
-  //   let scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-  //   let scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
-  //   let clientHeight = document.documentElement.clientHeight || window.innerHeight;
-  //   let scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight
-  //   if (scrolledToBottom) {
-  //     console.log("User scrolled his mouse");
-  //     // this.debounceCall();
-  //   } else {
-  //     console.log("Waiting for the user to scroll his mouse!")
-  //   }
-  // }
-
   handleOnScroll(e) {
     this.debounce();
   }
@@ -115,10 +110,15 @@ class App extends Component {
   // Conditionally rendering components based on the isLoaded flag in order to show loader
   render() {
     let { isLoaded, tweets } = this.state;
-    if (!isLoaded && tweets.length > 0) {
+    if (isLoaded) {
       return <div className="loader">
-        <div className="loading">
-        </div>
+        <div className="loading"></div>
+      </div>
+    } else if (this.state.hasOldData) {
+      return<div className="loader few">
+        <div className="alert alert-success text-center col-md-4">
+          Loading few more..
+            </div>
       </div>
     } else {
       return (

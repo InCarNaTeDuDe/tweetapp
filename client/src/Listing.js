@@ -22,9 +22,9 @@ class Listing extends Component {
             <img className="App-logo" alt="logo" src="https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png" />
             <p>Search Tweets</p>
             <p>Using Twitter Streaming API</p>
-            <div className="jumbotron display-content-center pd0">
+            <div className="pd0">
                 <form className="form-inline" onSubmit={this.handleSubmit}>
-                    <div className="input-inline">
+                    <div className="search-box">
                         <input
                             type="text"
                             value={this.state.searchQuery}
