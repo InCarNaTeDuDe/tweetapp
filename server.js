@@ -1,5 +1,6 @@
 const express = require('express'),
-    app = express();
+    app = express(),
+    path = require('path');
 Twit = require('twit')
 T = new Twit({
     consumer_key: '0XG5299e6oSESyHvLGIMGmwW3',
@@ -8,7 +9,7 @@ T = new Twit({
     access_token_secret: 'TPnK7IgPW0TB0m9NemXiyKAlZC6rBRpqi56w7sDhVxEgl',
     timeout_ms: 60 * 1000, // optional HTTP request timeout to apply to all requests.
     strictSSL: true, // optional - requires SSL certificates to be valid.
-})
+});
 
 // app.get('/', (req, res) => {
 //     res.send("hello world!");
@@ -16,7 +17,9 @@ T = new Twit({
 
 if (process.env.NODE_ENV === 'production') {
     app.get('/', (req, res) => {
-        res.send("hello world!");
+        //express middleware to serve the static files ,so that the client can download it form the server
+        // res.send("hello world!");
+        app.use(express.static(path.join(__dirname, 'client/build')));
     });
 }
 
