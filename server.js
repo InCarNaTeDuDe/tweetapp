@@ -16,7 +16,7 @@ T = new Twit({
 // });
 
 if (process.env.NODE_ENV === 'production') {
-    app.get('/*', (req, res) => {
+    app.get('*', (req, res) => {
         //express middleware to serve the static files ,so that the client can download it form the server
         // res.send("hello world!");
         app.use(express.static(path.join(__dirname, 'client/build')));
@@ -24,8 +24,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('/tweets', (req, res) => {
-    T.get('search/tweets', { q: req.query.searchTerm, count: 10, lang: 'en' }, (err, data, response) => {
-        var tweets = data.statuses;
+    T.get('search/tweets', { q: req.query.searchTerm, count: 10 }, (err, data, response) => {
+        var tweets = data.statuses||[];
         var resultSet = [];
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
