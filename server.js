@@ -10,9 +10,15 @@ T = new Twit({
     strictSSL: true, // optional - requires SSL certificates to be valid.
 })
 
-app.get('/', (req, res) => {
-    res.send("hello world!");
-});
+// app.get('/', (req, res) => {
+//     res.send("hello world!");
+// });
+
+if (process.env.NODE_ENV === 'production') {
+    app.get('/', (req, res) => {
+        res.send("hello world!");
+    });
+}
 
 app.get('/tweets', (req, res) => {
     T.get('search/tweets', { q: req.query.searchTerm, count: 25, lang: 'en' }, (err, data, response) => {
