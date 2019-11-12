@@ -15,7 +15,7 @@ app.get('/',(req,res)=>{
 });
 
 app.get('/tweets', (req, res) => {
-    T.get('search/tweets', { q: req.query.searchTerm, count: 25 }, (err, data, response) => {
+    T.get('search/tweets', { q: req.query.searchTerm||'cherry', count: 25 }, (err, data, response) => {
         var tweets = data.statuses;
         var resultSet = [];
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
