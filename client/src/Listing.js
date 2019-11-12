@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 
 class Listing extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             searchQuery: ''
         };
@@ -38,7 +38,7 @@ class Listing extends Component {
                             <span className="glyphicon glyphicon-search"></span>
                         </button>
                         <button type="button" className="btn btn-primary">New Tweets
-                         <span className="badge">7</span>
+                            <span className="badge">{this.props.newTweets}</span>
                         </button>
                     </div>
                 </form>

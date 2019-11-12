@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('/tweets', (req, res) => {
-    T.get('search/tweets', { q: req.query.searchTerm, count: 25, lang: 'en' }, (err, data, response) => {
+    T.get('search/tweets', { q: req.query.searchTerm, count: 10, language: 'en' }, (err, data, response) => {
         var tweets = data.statuses;
         var resultSet = [];
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -43,8 +43,28 @@ app.get('/tweets', (req, res) => {
                 }
             );
         }
+        // doStream(req.query.searchTerm);
         res.send(resultSet);
     });
 });
+
+app.get('/newtweets', (req, res) => {
+    let stream = T.stream('statuses/filter', { track: req.query.name, language: 'en' });
+    let newData = [];
+    stream.on('tweet', (newTweet) => {
+        console.log("Arguments",arguments)
+        newData.push(newTweet);
+        res.send(newData);
+    });
+});
+
+//filter the public strem which contains specific keyword in English language
+// function doStream(keyword) {
+//     let stream = T.stream('statuses/filter', { track: keyword, language: 'en' });
+//     stream.on('tweet', (newTweet) => {
+//         console.log("--New Tweet Came up!", newTweet);
+//     });
+// }
+
 
 app.listen(process.env.PORT || 5555, () => console.log(`Server is listening on port ${process.env.PORT}`));
