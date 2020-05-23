@@ -16,7 +16,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "twit": "^2.2.11"
   },
   "devDependencies": {
